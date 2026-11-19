@@ -1,0 +1,17 @@
+{
+  "name": "nikirent",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "check-data": "node scripts/check-data.mjs"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.6",
+    "next": "^15.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "xlsx": "^0.18.5"
+  }
+}
