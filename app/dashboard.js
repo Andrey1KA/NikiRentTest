@@ -39,6 +39,7 @@ export default function Dashboard() {
   const [today, setToday] = useState(null);
   const [ready, setReady] = useState(false);
   const [loadError, setLoadError] = useState("");
+  const [notice, setNotice] = useState(null);
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
@@ -151,6 +152,28 @@ export default function Dashboard() {
     });
   }, [stats]);
 
+  async function onFileChange(event) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file || !today) return;
+
+    try {
+      const nextAppeals = parseWorkbook(XLSX, await file.arrayBuffer());
+      setAppeals(nextAppeals);
+      setMonth(defaultMonthKey(nextAppeals, today));
+      setLoadError("");
+      setNotice({
+        tone: "ok",
+        text: `Файл прочитан: ${nextAppeals.length} ${appealsWord(nextAppeals.length)}`,
+      });
+    } catch (error) {
+      setNotice({
+        tone: "error",
+        text: error.message || "Не удалось прочитать файл",
+      });
+    }
+  }
+
   const total = slice.length;
 
   return (
@@ -161,6 +184,24 @@ export default function Dashboard() {
           <h1>Обращения гостей</h1>
           <p className="lede">{today ? `Срез на ${today.getDate()} ${MONTHS[today.getMonth()][1]} ${today.getFullYear()}` : "Загрузка таблицы…"}</p>
           {loadError ? <p className="message error">{loadError}</p> : null}
+        </div>
+        <div className="upload">
+          <label className="button" htmlFor="file">
+            Загрузить файл
+          </label>
+          <input
+            id="file"
+            className="file-input"
+            type="file"
+            accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv"
+            onChange={onFileChange}
+          />
+          <p className="hint">xlsx или csv. Таблица в проекте не изменяется.</p>
+          {notice ? (
+            <p className={`message ${notice.tone}`} role="status">
+              {notice.text}
+            </p>
+          ) : null}
         </div>
       </header>
 

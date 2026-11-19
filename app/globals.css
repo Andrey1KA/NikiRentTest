@@ -61,8 +61,35 @@ h2 { font-size: 28px; }
   line-height: 1.45;
 }
 
+.upload { max-width: 280px; text-align: right; }
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
 .message { margin: 8px 0 0; font-weight: 500; }
 .message.error { color: var(--danger); }
+.message.ok { color: var(--ok); }
 
 .panel {
   margin-bottom: 18px;
@@ -208,6 +235,7 @@ td {
 
 @media (max-width: 900px) {
   .top, .panel-head, .stat-layout { display: grid; }
+  .upload { max-width: none; text-align: left; }
   .stat-layout,
   .stat-layout .table-wrap,
   .chart-wrap {
